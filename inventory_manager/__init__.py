@@ -22,11 +22,16 @@ def create_app():
     from . import db
     db.init_app(app)
 
+    # Import blueprints
+    from . import product, location, report, product_movement
+
     # Add blueprints
-    from . import product, location, report
     app.register_blueprint(product.bp)
     app.register_blueprint(location.bp)
     app.register_blueprint(report.bp)
+    app.register_blueprint(product_movement.bp)
+
+    # To make '/' equivalent to '/index'
     app.add_url_rule('/', endpoint='index')
     
     # return this app instance
