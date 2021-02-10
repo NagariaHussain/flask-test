@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}All Products{% endblock %}
+
+{% block header %}
+<div class="Subhead">
+    <div class="Subhead-heading">List of all products</div>
+    <div class="Subhead-actions">
+        <a href="{{url_for('product.add')}}" class="btn btn-sm btn-primary" role="button">Add</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% if (products | length) == 0 %}
+    No products in database
+    {% else %}
+        <ul>
+        {% for product in products %}
+            <li>
+                <a href="{{ url_for('product.view', product_id=product['product_id']) }}">
+                    {{product['product_id']}}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

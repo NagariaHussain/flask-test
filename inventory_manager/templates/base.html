@@ -1,0 +1,25 @@
+<!doctype html>
+<head>
+    <title>{% block title %}{% endblock %} - Inventory Manager App</title>
+    <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <nav class="menu" aria-label="Person settings">
+        <a class="menu-item" href="{{ url_for('report.index') }}" aria-current="page">Report</a>
+        <a class="menu-item" href="{{ url_for('product.list_products') }}">Product</a>
+        <a class="menu-item" href="{{ url_for('location.list_locations') }}">Location</a>
+        <a class="menu-item" href="#">Product Movement</a>
+    </nav>
+    
+    <section class="content p-5">
+        <header>
+          {% block header %}{% endblock %}
+        </header>
+        {% for message in get_flashed_messages() %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </section>
+</body>

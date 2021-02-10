@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Update {{product['product_id']}}{% endblock %}
+
+{% block content %}
+<form action="{{url_for('product.edit', product_id=product['product_id'])}}" method="POST">
+    <label for="product_id">Product ID: </label>
+    <input value="{{product['product_id']}}" name="product_id" id="product_id" class="form-control" type="text" placeholder="Enter product id" required/>
+    <input class="btn btn-primary" type="submit" value="Update Product">
+</form>
+{% endblock %}

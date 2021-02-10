@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{product['product_id']}}{% endblock %}
+
+{% block header %}
+<div class="Subhead">
+    <div class="Subhead-heading">
+        Product: {{ product['product_id'] }}
+    </div>
+    <div class="Subhead-actions">
+        <a href="{{url_for('product.edit', product_id=product['product_id'])}}" class="btn btn-primary" role="button">Edit</a>
+    </div>
+</div>
+{% endblock %}

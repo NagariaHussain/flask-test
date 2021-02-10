@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}All Locations{% endblock %}
+
+{% block header %}
+<div class="Subhead">
+    <div class="Subhead-heading">List of all locations</div>
+    <div class="Subhead-actions">
+        <a href="{{url_for('location.add')}}" class="btn btn-sm btn-primary" role="button">Add</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% if (locations | length) == 0 %}
+    No locations in database
+    {% else %}
+        <ul>
+        {% for location in locations %}
+            <li>{{location['location_id']}}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

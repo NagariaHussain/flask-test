@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}New Product{% endblock %}
+
+{% block content %}
+<form action="{{url_for('product.add')}}" method="POST">
+    <label for="product_id">Product ID: </label>
+    <input name="product_id" id="product_id" class="form-control" type="text" placeholder="Enter product id" required />
+    <input class="btn btn-primary" type="submit" value="Add to Database">
+</form>
+{% endblock %}
