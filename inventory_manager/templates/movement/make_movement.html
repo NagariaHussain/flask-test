@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Add new product movement {% endblock %}
+
+{% block content %}
+    <form action="{{ url_for('movement.move') }}" method="GET">
+        <div class="m-1">
+            <label for="product_select">Product</label>
+            <select name="product_id" id="product_select">
+                {% for product in products %}
+                    <option value="{{product['product_id']}}">
+                        {{product['product_id']}}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="m-1">
+            <label for="from">
+                From:
+            </label>
+            <select name="from_location" id="from">
+                {% for location in locations %}
+                    <option value="{{location['location_id']}}">
+                        {{location['location_id']}}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="m-1">
+            <label for="to">
+                To:
+            </label>
+            <select name="to_location" id="to">
+                {% for location in locations %}
+                    <option value="{{location['location_id']}}">
+                        {{location['location_id']}}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="m-1">
+            <label for="prod_qty">Qty to move: </label>
+            <input type="number" name="qty" id="prod_qty" required>
+        </div>
+        <input type="submit" class="btn btn-primary btn-lg" value="Move" class="m-1">
+    </form>
+{% endblock %}
+
