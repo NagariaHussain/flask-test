@@ -5,6 +5,13 @@ from inventory_manager.db import get_db
 # Blueprint for '/product' endpoint
 bp = Blueprint('product', __name__, url_prefix='/product')
 
+def get_all_products():
+    '''return a list of all the records in the `Product` table'''
+    db = get_db()
+    sql_query = 'SELECT * FROM Product'
+    products = db.execute(sql_query).fetchall()
+    return products
+
 def get_product(product_id: str):
     '''return a single product record with the given `product_id`,
        abort with 404, if not found'''
@@ -21,13 +28,7 @@ def get_product(product_id: str):
 
 @bp.route('/', methods=('GET',))
 def list_products():
-    db = get_db()
-    sql_query = 'SELECT * FROM Product'
-    products = db.execute(sql_query).fetchall()
-    
-    # For Debugging
-    print(products)
-
+    products = get_all_products()
     # Render a page containing all products
     return render_template('product/list.html', products=products)
 
