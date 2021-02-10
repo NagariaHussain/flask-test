@@ -7,7 +7,7 @@
 
 <body>
     <nav class="menu" aria-label="Person settings">
-        <a class="menu-item" href="{{ url_for('report.index') }}" aria-current="page">Report</a>
+        <a class="menu-item" href="{{ url_for('report.index') }}">Report</a>
         <a class="menu-item" href="{{ url_for('product.list_products') }}">Product</a>
         <a class="menu-item" href="{{ url_for('location.list_locations') }}">Location</a>
         <a class="menu-item" href="{{ url_for('movement.index') }}">Product Movement</a>
@@ -22,4 +22,5 @@
         {% endfor %}
         {% block content %}{% endblock %}
     </section>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

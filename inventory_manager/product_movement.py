@@ -42,6 +42,7 @@ def create():
 
 @bp.route('/move', methods=("GET",))
 def move():
+    # Extract query params
     product_id = request.args.get('product_id')
     from_location = request.args.get('from_location')
     to_location = request.args.get('to_location')
@@ -54,9 +55,13 @@ def move():
         (product_id, from_location, to_location, qty)
     )
 
+    # Commit to database
     db.commit()
+
+    # Notify the user
     flash("Product movement successfull!")
 
+    # Redirect to all movements list
     return redirect(url_for('movement.index'))
 
 @bp.route('/view/<movement_id>')
