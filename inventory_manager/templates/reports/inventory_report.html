@@ -3,5 +3,16 @@
 {% block title %}Report{% endblock %}
 
 {% block content %}
-    
+    <ul>
+    {% for product_id in inventory %}
+        <li>
+            <h2>{{ product_id }}</h2>
+            <ol>
+                {% for warehouse in inventory[product_id] %}
+                    <li>{{ warehouse }} has {{inventory[product_id][warehouse]}} units</li>
+                {% endfor %}
+            </ol>
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
