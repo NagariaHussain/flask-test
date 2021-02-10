@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Update {{location['location_id']}}{% endblock %}
+
+{% block content %}
+<form action="{{url_for('location.edit', location_id=location['location_id'])}}" method="POST">
+    <label for="location_id">Location ID: </label>
+    <input value="{{location['location_id']}}" name="location_id" id="location_id" class="form-control" type="text" placeholder="Enter Location id" required/>
+    <input class="btn btn-primary" type="submit" value="Update Location">
+</form>
+{% endblock %}

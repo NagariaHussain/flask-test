@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{location['location_id']}}{% endblock %}
+
+{% block header %}
+<div class="Subhead">
+    <div class="Subhead-heading">
+        location: {{ location['location_id'] }}
+    </div>
+    <div class="Subhead-actions">
+        <a href="{{url_for('location.edit', location_id=location['location_id'])}}" class="btn btn-primary" role="button">Edit</a>
+    </div>
+</div>
+{% endblock %}

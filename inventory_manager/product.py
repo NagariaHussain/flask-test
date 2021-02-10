@@ -5,9 +5,10 @@ from inventory_manager.db import get_db
 # Blueprint for '/product' endpoint
 bp = Blueprint('product', __name__, url_prefix='/product')
 
-
 def get_product(product_id: str):
-    '''return a single product record with the given `product_id`'''
+    '''return a single product record with the given `product_id`,
+       abort with 404, if not found'''
+    # Get database connection instance
     db = get_db()
     select_sql_query = 'SELECT * FROM Product WHERE product_id = ?'
     product = db.execute(select_sql_query, (product_id,)).fetchone()
@@ -63,7 +64,6 @@ def view(product_id: str):
 def edit(product_id: str):
     product = get_product(product_id)
     
-    
     if request.method == "POST":
         new_product_id = request.form['product_id']
 
@@ -76,7 +76,7 @@ def edit(product_id: str):
         db.commit()
 
         return redirect(url_for('product.list_products'))
-        
+
     # Render a pre populated form 
     # with product data
     return render_template('product/edit.html', product=product)

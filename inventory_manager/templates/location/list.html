@@ -17,7 +17,11 @@
     {% else %}
         <ul>
         {% for location in locations %}
-            <li>{{location['location_id']}}</li>
+            <li>
+                <a href="{{ url_for('location.view', location_id=location['location_id']) }}">
+                {{location['location_id']}}
+                </a>
+            </li>
         {% endfor %}
         </ul>
     {% endif %}
