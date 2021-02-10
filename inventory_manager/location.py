@@ -5,6 +5,13 @@ from inventory_manager.db import get_db
 # Blueprint for '/location' endpoint
 bp = Blueprint('location', __name__, url_prefix='/location')
 
+def get_all_locations():
+    '''return a list of all available locations in database'''
+    db = get_db()
+    sql_query = 'SELECT * FROM Location'
+    locations = db.execute(sql_query).fetchall()
+
+    return locations
 
 def get_location(location_id: str):
     '''return a single location record with the given `location_id`,
@@ -23,13 +30,7 @@ def get_location(location_id: str):
 
 @bp.route('/', methods=('GET',))
 def list_locations():
-    db = get_db()
-    sql_query = 'SELECT * FROM Location'
-    locations = db.execute(sql_query).fetchall()
-    
-    # For Debugging
-    print(locations)
-
+    locations = get_all_locations()
     # Render a page containing all locations
     return render_template('location/list.html', locations=locations)
 
