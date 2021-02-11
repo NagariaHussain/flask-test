@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Movement: {{movement['movement_id']}}{% endblock %}
+
+
+{% block content %}
+<div class="box">
+    <form action="{{ url_for('movement.edit', movement_id=movement['movement_id']) }}" method="POST">
+        <div class="field">
+            <label class="label" for="product_id">Product</label>
+            <div class="control">
+                <div class="select" id="product_id">
+                <select name="product_id">
+                {% for p in products %}
+                    <option value="{{p['product_id']}}"
+                    {% if p['product_id'] == movement['product_id'] %}
+                        selected
+                    {% endif %}
+                    >
+                        {{p['product_id']}}
+                    </option>
+                {% endfor %}
+                </select>
+                </div>
+            </div>
+            </div>
+    
+        <div class="field">
+            <label class="label" for="from">From</label>
+            <div class="control">
+                <div class="select">
+                <select name="from_location" id="from">
+                {% for l in locations %}
+                    <option value="{{l['location_id']}}"
+                    <option value="{{l['location_id']}}"
+                    {% if l['location_id'] == movement['from_location'] %}
+                        selected
+                    {% endif %}
+                    >
+                        {{l['location_id']}}
+                    </option>
+                {% endfor %}
+                <option value="unknown">Unknown</option>
+                </select>
+                </div>
+            </div>
+            </div>
+   
+        <div class="field">
+            <label class="label" for="to">To</label>
+            <div class="control">
+                <div class="select">
+                <select name="to_location" id="to">
+                {% for l in locations %}
+                    <option value="{{l['location_id']}}"
+                    {% if l['location_id'] == movement['to_location'] %}
+                        selected
+                    {% endif %}
+                    >
+                        {{l['location_id']}}
+                    </option>
+                {% endfor %}
+                <option value="unknown">Unknown</option>
+                </select>
+                </div>
+            </div>
+            </div>
+
+        <div class="field has-addons">
+            <p class="control">
+              <input value="{{movement['qty']}}" required name="qty" id="qty_control" class="input" type="number" placeholder="Quantity to move">
+            </p>
+            <p class="control">
+              <a class="button is-static">
+                units
+              </a>
+            </p>
+          </div>
+        
+          <div class="field short-field">
+            <label class="label" for="date">Date</label>
+              <div class="control">
+                  <input value="{{ current_date }}" type="date" id="date" class="input" name="date">
+              </div>
+          </div>
+
+          <div class="field short-field">
+            <label class="label" for="time">Time</label>
+              <div class="control">
+                  <input value="{{ current_time }}" type="time" id="time" class="input" name="time">
+              </div>
+          </div>
+        <input type="submit" class="button is-warning" value="Update" class="m-1">
+    </form>
+</div>
+{% endblock %}
+
+

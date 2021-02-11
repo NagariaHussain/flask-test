@@ -28,7 +28,7 @@ def get_movement(movement_id: str):
 
     return movement
 
-def get_timestamp(date, time):
+def get_timestamp(date: str, time: str):
     '''return python datetime object based on 
        given date and time strings'''
     timestamp = None
@@ -47,6 +47,49 @@ def get_timestamp(date, time):
     )
 
     return timestamp
+
+def process_and_save_movement(data, type, movement_id=None):
+    # Extract query params
+    product_id = data.get('product_id')
+    from_location = data.get('from_location')
+    to_location = data.get('to_location')
+    qty = int(data.get('qty'))
+    time = data.get('time')
+    date = data.get('date')
+
+    # Generate timestamp
+    timestamp = get_timestamp(date, time)
+
+    # Both the locations are unknown
+    if from_location == "unknown" and to_location == "unknown":
+        abort(400, "Both from and to locations cannot be none at the same time")
+    # Source location is unknown
+    elif from_location == "unknown":
+        from_location = None
+    # Destination location is unknown
+    elif to_location == "unknown":
+        to_location = None
+
+    # Create new movement entry
+    db = get_db()
+    sql_query = None
+
+    if type == "INSERT":
+        sql_query = 'INSERT INTO ProductMovement(product_id, from_location, to_location, qty, timestamp) VALUES (?, ?, ?, ?, ?)'
+        db.execute(
+            sql_query,
+            (product_id, from_location, to_location, qty, timestamp)
+        )
+    else:
+        sql_query = 'UPDATE ProductMovement SET product_id = ?, from_location = ?, to_location = ?, qty = ?, timestamp = ? WHERE movement_id = ?'
+        db.execute(
+            sql_query,
+            (product_id, from_location, to_location, qty, timestamp, movement_id)
+        )
+
+    # Commit to database
+    db.commit()
+
 
 @bp.route('/', methods=("GET",))
 def index():
@@ -69,36 +112,9 @@ def create():
 
 @bp.route('/move', methods=("GET",))
 def move():
-    # Extract query params
-    product_id = request.args.get('product_id')
-    from_location = request.args.get('from_location')
-    to_location = request.args.get('to_location')
-    qty = int(request.args.get('qty'))
-    time = request.args.get('time')
-    date = request.args.get('date')
-
-    # Generate timestamp
-    timestamp = get_timestamp(date, time)
-
-    # Both the locations are unknown
-    if from_location == "unknown" and to_location == "unknown":
-        abort(400, "Both from and to locations cannot be none at the same time")
-    # Source location is unknown
-    elif from_location == "unknown":
-        from_location = None
-    # Destination location is unknown
-    elif to_location == "unknown":
-        to_location = None
-
-    # Create new movement entry
-    db = get_db()
-    db.execute(
-        'INSERT INTO ProductMovement(product_id, from_location, to_location, qty, timestamp) VALUES (?, ?, ?, ?, ?)',
-        (product_id, from_location, to_location, qty, timestamp)
-    )
-
-    # Commit to database
-    db.commit()
+    # Process the request data and 
+    # save movement to database
+    process_and_save_movement(request.args, "INSERT")
 
     # Notify the user
     flash("Product movement successfull!")
@@ -111,7 +127,31 @@ def view(movement_id: str):
     movement = get_movement(movement_id)
     return render_template('movement/details.html', movement=movement)
 
-@bp.route('/edit/<movement_id>')
+@bp.route('/edit/<movement_id>', methods=("GET", "POST"))
 def edit(movement_id: str):
-    movement = get_movement(movement_id)
-    return render_template('movement/edit.html', movement=movement)
+    if request.method == "GET":
+        # Get data from database
+        products = get_all_products()
+        locations = get_all_locations()
+        movement = get_movement(movement_id)
+
+        # Get date and time string
+        current_time = movement['timestamp'].strftime("%H:%M")
+        current_date = movement['timestamp'].strftime("%Y-%m-%d")
+
+        return render_template(
+            'movement/edit.html', 
+            movement=movement,
+            products=products,
+            locations=locations,
+            current_date=current_date,
+            current_time=current_time
+        )
+    else:
+        # Process form data and 
+        # update record in database
+        process_and_save_movement(request.form, "UPDATE", movement_id=movement_id)
+        # Notify user
+        flash("Movement update successful!")
+        # Redirect to movement list page
+        return redirect(url_for('movement.index'))
