@@ -2,10 +2,17 @@
 
 {% block title %}Update {{location['location_id']}}{% endblock %}
 
+
 {% block content %}
 <form action="{{url_for('location.edit', location_id=location['location_id'])}}" method="POST">
-    <label for="location_id">Location ID: </label>
-    <input value="{{location['location_id']}}" name="location_id" id="location_id" class="form-control" type="text" placeholder="Enter Location id" required/>
-    <input class="btn btn-primary" type="submit" value="Update Location">
+    <div class="field">
+        <label class="label" for="location_id">Location ID:</label>
+        <input value="{{location['location_id']}}" autofocus name="location_id" id="location_id" class="input is-large" type="text" placeholder="Enter location id here">
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <input class="button is-link is-large" type="submit" value="Update Database">
+        </div>
+      </div>
 </form>
 {% endblock %}

@@ -3,12 +3,18 @@
 {% block title %}{{product['product_id']}}{% endblock %}
 
 {% block header %}
-<div class="Subhead">
-    <div class="Subhead-heading">
-        Product: {{ product['product_id'] }}
+<nav class="level box">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>Product: {{ product['product_id'] }}</strong>
+          </p>
+        </div>
     </div>
-    <div class="Subhead-actions">
-        <a href="{{url_for('product.edit', product_id=product['product_id'])}}" class="btn btn-primary" role="button">Edit</a>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('product.edit', product_id=product['product_id'])}}" class="button is-info">Edit</a>
+        </p>
     </div>
-</div>
+</nav>
 {% endblock %}

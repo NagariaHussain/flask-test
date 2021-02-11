@@ -3,12 +3,18 @@
 {% block title %}{{location['location_id']}}{% endblock %}
 
 {% block header %}
-<div class="Subhead">
-    <div class="Subhead-heading">
-        location: {{ location['location_id'] }}
+<nav class="level box">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>Location: {{ location['location_id'] }}</strong>
+          </p>
+        </div>
     </div>
-    <div class="Subhead-actions">
-        <a href="{{url_for('location.edit', location_id=location['location_id'])}}" class="btn btn-primary" role="button">Edit</a>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('location.edit', location_id=location['location_id'])}}" class="button is-info">Edit</a>
+        </p>
     </div>
-</div>
+</nav>
 {% endblock %}
