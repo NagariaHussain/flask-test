@@ -9,8 +9,16 @@
     row-gap: 10px;
 }
 
+.short-field {
+    width: 30%;
+}
+
 @media (max-width: 738px) {
     #prod-list {
         grid-template-columns: 1fr;
+    }
+
+    .short-field {
+        width: 100%;
     }
 }

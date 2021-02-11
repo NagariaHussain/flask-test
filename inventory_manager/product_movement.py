@@ -1,5 +1,12 @@
+# Std lib imports
+from datetime import datetime
+from sqlite3.dbapi2 import Timestamp
+
+# Flask imports
 from flask import Blueprint, request, render_template, flash, redirect, abort
 from flask.helpers import url_for
+
+# Internal module imports
 from inventory_manager.db import get_db
 from inventory_manager.product import get_all_products
 from inventory_manager.location import get_all_locations
@@ -20,6 +27,26 @@ def get_movement(movement_id: str):
         abort(404, "Movement Not Found!")
 
     return movement
+
+def get_timestamp(date, time):
+    '''return python datetime object based on 
+       given date and time strings'''
+    timestamp = None
+    # If time is not provided
+    if time == "":
+        time = datetime.now().strftime("%H:%M")
+
+    # If date is not provided
+    if date == "":
+        date = datetime.now().strftime("%Y-%m-%d")
+        
+    # Create datetime object
+    timestamp = datetime.strptime(
+        f"{date}, {time}", 
+        "%Y-%m-%d, %H:%M"
+    )
+
+    return timestamp
 
 @bp.route('/', methods=("GET",))
 def index():
@@ -47,12 +74,27 @@ def move():
     from_location = request.args.get('from_location')
     to_location = request.args.get('to_location')
     qty = int(request.args.get('qty'))
+    time = request.args.get('time')
+    date = request.args.get('date')
+
+    # Generate timestamp
+    timestamp = get_timestamp(date, time)
+
+    # Both the locations are unknown
+    if from_location == "unknown" and to_location == "unknown":
+        abort(400, "Both from and to locations cannot be none at the same time")
+    # Source location is unknown
+    elif from_location == "unknown":
+        from_location = None
+    # Destination location is unknown
+    elif to_location == "unknown":
+        to_location = None
 
     # Create new movement entry
     db = get_db()
     db.execute(
-        'INSERT INTO ProductMovement(product_id, from_location, to_location, qty) VALUES (?, ?, ?, ?)',
-        (product_id, from_location, to_location, qty)
+        'INSERT INTO ProductMovement(product_id, from_location, to_location, qty, timestamp) VALUES (?, ?, ?, ?, ?)',
+        (product_id, from_location, to_location, qty, timestamp)
     )
 
     # Commit to database

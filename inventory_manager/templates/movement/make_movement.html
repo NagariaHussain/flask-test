@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Add new product movement {% endblock %}
+{% block title %} Add new product movement {% endblock %}
 
 {% block content %}
 <div class="box">
@@ -31,6 +31,7 @@
                         {{location['location_id']}}
                     </option>
                 {% endfor %}
+                <option value="unknown">Unknown</option>
                 </select>
                 </div>
             </div>
@@ -46,6 +47,7 @@
                         {{location['location_id']}}
                     </option>
                 {% endfor %}
+                <option value="unknown">Unknown</option>
                 </select>
                 </div>
             </div>
@@ -61,7 +63,20 @@
               </a>
             </p>
           </div>
-          
+        
+          <div class="field short-field">
+            <label class="label" for="date">Date</label>
+              <div class="control">
+                  <input type="date" id="date" class="input" name="date">
+              </div>
+          </div>
+
+          <div class="field short-field">
+            <label class="label" for="time">Time</label>
+              <div class="control">
+                  <input type="time" id="time" class="input" name="time">
+              </div>
+          </div>
         <input type="submit" class="button is-link" value="Move" class="m-1">
     </form>
 </div>
