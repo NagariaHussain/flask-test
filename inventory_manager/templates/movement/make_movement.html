@@ -3,48 +3,67 @@
 {% block title %}Add new product movement {% endblock %}
 
 {% block content %}
+<div class="box">
+
     <form action="{{ url_for('movement.move') }}" method="GET">
-        <div class="m-1">
-            <label for="product_select">Product</label>
-            <select name="product_id" id="product_select">
+        <div class="field">
+            <label class="label" for="product_id">Product</label>
+            <div class="control">
+                <div class="select" id="product_id">
+                <select name="product_id">
                 {% for product in products %}
                     <option value="{{product['product_id']}}">
                         {{product['product_id']}}
                     </option>
                 {% endfor %}
-            </select>
-        </div>
-        <br>
-        <div class="m-1">
-            <label for="from">
-                From:
-            </label>
-            <select name="from_location" id="from">
+                </select>
+                </div>
+            </div>
+            </div>
+    
+        <div class="field">
+            <label class="label" for="from">From</label>
+            <div class="control">
+                <div class="select">
+                <select name="from_location" id="from">
                 {% for location in locations %}
                     <option value="{{location['location_id']}}">
                         {{location['location_id']}}
                     </option>
                 {% endfor %}
-            </select>
-        </div>
-        <br>
-        <div class="m-1">
-            <label for="to">
-                To:
-            </label>
-            <select name="to_location" id="to">
+                </select>
+                </div>
+            </div>
+            </div>
+   
+        <div class="field">
+            <label class="label" for="to">To</label>
+            <div class="control">
+                <div class="select">
+                <select name="to_location" id="to">
                 {% for location in locations %}
                     <option value="{{location['location_id']}}">
                         {{location['location_id']}}
                     </option>
                 {% endfor %}
-            </select>
-        </div>
-        <div class="m-1">
-            <label for="prod_qty">Qty to move: </label>
-            <input type="number" name="qty" id="prod_qty" required>
-        </div>
-        <input type="submit" class="btn btn-primary btn-lg" value="Move" class="m-1">
+                </select>
+                </div>
+            </div>
+            </div>
+
+        <div class="field has-addons">
+            <p class="control">
+              <input required name="qty" id="qty_control" class="input" type="number" placeholder="Quantity to move">
+            </p>
+            <p class="control">
+              <a class="button is-static">
+                units
+              </a>
+            </p>
+          </div>
+          
+        <input type="submit" class="button is-link" value="Move" class="m-1">
     </form>
+</div>
 {% endblock %}
 
