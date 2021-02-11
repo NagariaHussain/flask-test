@@ -3,3 +3,35 @@
 {% block title %}Movement: {{movement['movement_id']}}{% endblock %}
 
 
+{% block header %}
+<nav class="level box">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>Movement</strong>
+          </p>
+        </div>
+    </div>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('movement.edit', movement_id=movement['movement_id'])}}" class="button is-info">Edit</a>
+        </p>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+    <div class="card p-3 mt-3">
+        <div class="content">
+            <h1 class="is-size-1">
+                {{ movement['qty'] }} <span class="has-text-success">units</span> of 
+                <span class="has-text-info">{{ movement['product_id']}}</span>
+            </h1>
+
+            <h2><strong>Details about the movement</strong></h2>
+            <p>From: {{movement['from_location']}}</p>
+            <p>To: {{movement['to_location']}}</p>
+            <p>On: {{movement['timestamp']}}</p>
+        </div>
+    </div>
+{% endblock %}
