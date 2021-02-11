@@ -68,3 +68,8 @@ def move():
 def view(movement_id: str):
     movement = get_movement(movement_id)
     return render_template('movement/details.html', movement=movement)
+
+@bp.route('/edit/<movement_id>')
+def edit(movement_id: str):
+    movement = get_movement(movement_id)
+    return render_template('movement/edit.html', movement=movement)

@@ -3,16 +3,51 @@
 {% block title %}Report{% endblock %}
 
 {% block content %}
-    <ul>
-    {% for product_id in inventory %}
-        <li>
-            <h2>{{ product_id }}</h2>
-            <ol>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Warehouse</th>
+                <th>Qty (units)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product_id in inventory %}
                 {% for warehouse in inventory[product_id] %}
-                    <li>{{ warehouse }} has {{inventory[product_id][warehouse]}} units</li>
+                <tr>
+                    <th>
+                        {{ product_id }} 
+                    </th>
+                    <td>
+                        {{ warehouse }}
+                    </td>
+                    <td>
+                        {{inventory[product_id][warehouse]}}
+                    </td>
+                </tr>
                 {% endfor %}
-            </ol>
-        </li>
-    {% endfor %}
-    </ul>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2 class="title is-2">Summary</h2>
+    <div>
+        {% for product_id in inventory %}
+            <div class="card mt-2">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        {{ product_id }}
+                    </p>
+                  </header>
+                <div class="card-content">
+                <div class="content">
+                <ol>
+                    {% for warehouse in inventory[product_id] %}
+                        <li>{{ warehouse }}: {{inventory[product_id][warehouse]}} units</li>
+                    {% endfor %}
+                </ol>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
 {% endblock %}

@@ -3,26 +3,36 @@
 {% block title %}All Products{% endblock %}
 
 {% block header %}
-<div class="Subhead">
-    <div class="Subhead-heading">List of all products</div>
-    <div class="Subhead-actions">
-        <a href="{{url_for('product.add')}}" class="btn btn-sm btn-primary" role="button">Add</a>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>All the products in the database</strong>
+          </p>
+        </div>
     </div>
-</div>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('product.add')}}" class="button is-info">New</a>
+        </p>
+    </div>
+</nav>
 {% endblock %}
 
 {% block content %}
-    {% if (products | length) == 0 %}
-    No products in database
-    {% else %}
-        <ul>
-        {% for product in products %}
-            <li>
-                <a href="{{ url_for('product.view', product_id=product['product_id']) }}">
-                    {{product['product_id']}}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+    <aside class="menu">
+        {% if (products | length) == 0 %}
+            No products in database
+        {% else %}
+            <ul class="menu-list">
+                {% for product in products %}
+                    <li>
+                        <a href="{{ url_for('product.view', product_id=product['product_id']) }}">
+                            {{product['product_id']}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </aside>
 {% endblock %}

@@ -8,7 +8,7 @@ bp = Blueprint('product', __name__, url_prefix='/product')
 def get_all_products():
     '''return a list of all the records in the `Product` table'''
     db = get_db()
-    sql_query = 'SELECT * FROM Product'
+    sql_query = 'SELECT * FROM Product ORDER BY product_id'
     products = db.execute(sql_query).fetchall()
     return products
 

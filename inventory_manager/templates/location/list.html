@@ -3,26 +3,36 @@
 {% block title %}All Locations{% endblock %}
 
 {% block header %}
-<div class="Subhead">
-    <div class="Subhead-heading">List of all locations</div>
-    <div class="Subhead-actions">
-        <a href="{{url_for('location.add')}}" class="btn btn-sm btn-primary" role="button">Add</a>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>All the locations in the database</strong>
+          </p>
+        </div>
     </div>
-</div>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('location.add')}}" class="button is-info">New</a>
+        </p>
+    </div>
+</nav>
 {% endblock %}
 
 {% block content %}
-    {% if (locations | length) == 0 %}
-    No locations in database
-    {% else %}
-        <ul>
-        {% for location in locations %}
-            <li>
-                <a href="{{ url_for('location.view', location_id=location['location_id']) }}">
-                {{location['location_id']}}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+    <aside class="menu">
+        {% if (locations | length) == 0 %}
+            No locations in database
+        {% else %}
+            <ul class="menu-list">
+                {% for location in locations %}
+                    <li>
+                        <a href="{{ url_for('location.view', location_id=location['location_id']) }}">
+                            {{location['location_id']}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </aside>
 {% endblock %}

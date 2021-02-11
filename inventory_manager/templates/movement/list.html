@@ -3,28 +3,47 @@
 {% block title %}All Movements{% endblock %}
 
 {% block header %}
-<div class="Subhead">
-    <div class="Subhead-heading">List of all movements</div>
-    <div class="Subhead-actions">
-        <a href="{{ url_for('movement.create')}}" class="btn btn-sm btn-primary" role="button">Add</a>
+<nav class="level mb-4">
+    <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            <strong>List of all movements</strong>
+          </p>
+        </div>
     </div>
-</div>
+    <div class="level-right">
+        <p class="level-item">
+            <a href="{{url_for('movement.create')}}" class="button is-info">New</a>
+        </p>
+    </div>
+</nav>
 {% endblock %}
 
 {% block content %}
     {% if (movements | length) == 0 %}
     No movements in database
     {% else %}
-        <ul>
-        {% for movement in movements %}
-            <li>
-                <a href="{{ url_for('movement.view', movement_id=movement['movement_id']) }}">
-                    view details
-                </a>
-                {{movement['qty']}} units of {{movement['product_id']}} moved from 
-                {{movement['from_location']}} to {{movement['to_location']}} on {{movement['timestamp']}}.
-            </li>
+    <div id="prod-list">
+        {% for movement in movements %}            
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        {{movement['product_id']}}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <h1 class="is-size-1">{{ movement['qty'] }} <span class="is-size-5 has-text-info"> units</span></h1>
+                        <h4 class="is-size-6">From: <span class="has-text-info">{{movement['from_location']}}</span></h4>
+                        <h4 class="is-size-6">To: <span class="has-text-info">{{movement['to_location']}}</span></h4>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <a href="{{ url_for('movement.view', movement_id=movement['movement_id']) }}" class="card-footer-item">View</a>
+                    <a href="{{ url_for('movement.edit', movement_id=movement['movement_id']) }}" class="card-footer-item">Edit</a>
+                </footer>
+            </div>
         {% endfor %}
-        </ul>
+    </div>
     {% endif %}
 {% endblock %}

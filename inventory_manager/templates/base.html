@@ -1,18 +1,23 @@
 <!doctype html>
 <head>
-    <title>{% block title %}{% endblock %} - Inventory Manager App</title>
-    <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - Inventory Manager App</title>
 </head>
 
-<body>
-    <nav class="menu" aria-label="Person settings">
-        <a class="menu-item" href="{{ url_for('report.index') }}">Report</a>
-        <a class="menu-item" href="{{ url_for('product.list_products') }}">Product</a>
-        <a class="menu-item" href="{{ url_for('location.list_locations') }}">Location</a>
-        <a class="menu-item" href="{{ url_for('movement.index') }}">Product Movement</a>
-    </nav>
-    
+<body class="container mt-2">
+  <nav>
+    <div class="tabs is-centered">
+      <ul>
+        <li><a href="{{ url_for('report.index') }}">Report</a></li>
+        <li><a href="{{ url_for('product.list_products') }}">Product</a></li>
+        <li><a href="{{ url_for('location.list_locations') }}">Location</a></li>
+        <li><a href="{{ url_for('movement.index') }}">Product Movement</a></li>
+      </ul>
+    </div>
+  </nav>
     <section class="content p-5">
         <header>
           {% block header %}{% endblock %}

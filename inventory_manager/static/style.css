@@ -1,0 +1,16 @@
+.menu-list li {
+    list-style: none;
+}
+
+#prod-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+@media (max-width: 738px) {
+    #prod-list {
+        grid-template-columns: 1fr;
+    }
+}
