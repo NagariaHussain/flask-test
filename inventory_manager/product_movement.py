@@ -14,6 +14,10 @@ from inventory_manager.location import get_all_locations
 # Blueprint for '/movement' endpoint
 bp = Blueprint('movement', __name__, url_prefix='/movement')
 
+# ------------------
+# HELPER FUNCTIONS
+# ------------------
+
 def get_movement(movement_id: str):
     '''return a single movement record with the given `movement_id`,
        abort with 404, if not found'''
@@ -49,6 +53,10 @@ def get_timestamp(date: str, time: str):
     return timestamp
 
 def process_and_save_movement(data, type, movement_id=None):
+    '''process the given form data and 
+       save a productMovement to the database
+       based on type of operation
+    '''
     # Extract query params
     product_id = data.get('product_id')
     from_location = data.get('from_location')
@@ -90,13 +98,25 @@ def process_and_save_movement(data, type, movement_id=None):
     # Commit to database
     db.commit()
 
+# ----------
+# ROUTES
+# ----------
 
+# Index Route: displays a list of 
+# all product movements
 @bp.route('/', methods=("GET",))
 def index():
+    # Get database instance
     db = get_db()
-    movements = db.execute('SELECT * FROM ProductMovement').fetchall()
+    # Get all product movements
+    # sorted in descending order of timestamp
+    sql_query = 'SELECT * FROM ProductMovement ORDER BY timestamp DESC'
+    movements = db.execute(sql_query).fetchall()
+
+    # render a list of all movements
     return render_template("movement/list.html", movements=movements)
 
+# Get create movement form
 @bp.route('/new', methods=("GET",))
 def create():
     # Get data from database
@@ -110,6 +130,7 @@ def create():
         locations=locations
     )
 
+# Add move to database Route
 @bp.route('/move', methods=("GET",))
 def move():
     # Process the request data and 
@@ -122,11 +143,14 @@ def move():
     # Redirect to all movements list
     return redirect(url_for('movement.index'))
 
+# View Movement Route
 @bp.route('/view/<movement_id>')
 def view(movement_id: str):
+    # Get movement record
     movement = get_movement(movement_id)
     return render_template('movement/details.html', movement=movement)
 
+# Edit Movement Route
 @bp.route('/edit/<movement_id>', methods=("GET", "POST"))
 def edit(movement_id: str):
     if request.method == "GET":

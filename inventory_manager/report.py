@@ -1,9 +1,18 @@
+# Std lib imports
 from collections import defaultdict
+
+# Flask imports
 from flask import Blueprint, render_template, request
+
+# Internal module imports
 from inventory_manager.db import get_db
 
+# Create a blueprint
 bp = Blueprint('report', __name__)
 
+# ------------------
+# HELPER FUNCTIONS
+# ------------------
 def get_product_movements():
     '''return a list of all product movement records'''
     db = get_db()
@@ -11,7 +20,10 @@ def get_product_movements():
     prod_moves = db.execute(select_sql_query).fetchall()
     return prod_moves
 
-# Home page with a report
+# ----------
+# ROUTES
+# ----------
+# render a page with a report
 @bp.route('/', methods=("GET",))
 def index():
     # Get productMovement records from database

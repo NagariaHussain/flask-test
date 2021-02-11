@@ -1,10 +1,16 @@
+# Flask imports
 from flask import Blueprint, request, render_template, flash, redirect, abort
 from flask.helpers import url_for
+
+# Internal module imports
 from inventory_manager.db import get_db
 
 # Blueprint for '/product' endpoint
 bp = Blueprint('product', __name__, url_prefix='/product')
 
+# ------------------
+# HELPER FUNCTIONS
+# ------------------
 def get_all_products():
     '''return a list of all the records in the `Product` table'''
     db = get_db()
@@ -26,12 +32,19 @@ def get_product(product_id: str):
 
     return product
 
+# ----------
+# ROUTES
+# ----------
+
+# Returns a list of all products
 @bp.route('/', methods=('GET',))
 def list_products():
     products = get_all_products()
     # Render a page containing all products
     return render_template('product/list.html', products=products)
 
+# GET: return a add product form
+# POST: add a new product to db
 @bp.route('/add', methods=('GET', 'POST'))
 def add():
     if request.method == "POST":
@@ -53,16 +66,21 @@ def add():
         
     # Render product addition form
     return render_template('product/add.html')
-        
+
+# View a particular product    
 @bp.route('/view/<product_id>', methods=("GET",))
 def view(product_id: str):
+    # Get a particular product record
     product = get_product(product_id)
-
     # Render the details of the product
     return render_template('product/details.html', product=product)
 
+# Edit a particular product
+# GET: render edit form
+# POST: update a product record
 @bp.route('/edit/<product_id>', methods=("GET", "POST"))
 def edit(product_id: str):
+    # Get a particular product record
     product = get_product(product_id)
     
     if request.method == "POST":
